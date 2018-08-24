@@ -1,74 +1,44 @@
 # Timeline Manager
 
-TimelineManager::Timeline is a class that helps order and transform grouped temporal data.
+A Ruby gem that helps order and transform grouped temporal data.
 
 ## Synopsis
 
+Consider these timelines.
+
 ```
-require 'date'
-require 'timeline-manager'
+<---- time ---->
 
-events = [
+Time A: |----------|
+Time B:             |----->
+Time C:     |---------|
+```
 
-	{
-		start: DateTime.now,
-		end: DateTime.now + 7
-	},
-	{
-		start: DateTime.now + 8,
-		end: DateTime.now + 10
-	}
-]
+Inserting Time C into Time A and B:
 
-timeline = TimelineManager::Timeline.new(events)
+```
+Time A: |---|
+Time B:                 |-->
+Time C:      |---------|
+```
 
-# Insert a new object, where the other object's times do not overlap with this new object's time.
+Overlaying Time C into Time A and B:
+```
+Time A: |----------|
+Time B:            |----->
+Time C:     |---------|
+```
 
-altered_timeline = timeline.insert({
-	start: DateTime.now + 2,
-	end: DateTime.now + 4
-})
-
-puts altered_timeline.data
-
-# => [
-	{
-		start: DateTime.now,
-		end: DateTime.now + 1
-	},
-	{
-		start: DateTime.now + 2,
-		end: DateTime.now + 4
-	},
-	{
-		start: DateTime.now + 5,
-		end: DateTime.now + 7
-	},
-	{
-		start: DateTime.now + 8,
-		end: DateTime.now + 10
-	}
-]
-
-# The original timeline is unaltered.
-
-puts timeline.data
-
-# => [
-	{
-		start: DateTime.now,
-		end: DateTime.now + 7
-	},
-	{
-		start: DateTime.now + 8,
-		end: DateTime.now + 10
-	}
-]
+Overlapping Time C Into Time A and B:
+```
+Time A: |---|
+Time B:               |--->
+Time C:     |---------|
 ```
 
 ## Examples
 
-`TimelineManager::Timeline` is a class that helps order and transform temporal data.
+`TimelineManager::Timeline` is the class that helps order and transform temporal data.
 
 For example, the simplest method is `overlay(obj)`. This method will perform no checks on any other object in the `Timeline` and simply add `obj` to the `times` in the `Timeline`
 
@@ -88,7 +58,7 @@ puts timeline.data
 	}
 ]
 
-timeline = timeline.overlay {start: DateTime.now, end: DateTime.now
+timeline = timeline.overlay {start: DateTime.now, end: DateTime.now}
 
 puts timeline.data
 
@@ -132,11 +102,11 @@ puts timeline.data
 		end: DateTime.now + 1
 	},
 	{
-		start: DateTime.now + 2
+		start: DateTime.now + 2,
 		end: DateTime.now + 4
 	},
 	{
-		start: DateTime.now + 5
+		start: DateTime.now + 5,
 		end: DateTime.now + 7
 	}
 ]
