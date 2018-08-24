@@ -116,7 +116,7 @@ When `insert`ing, `Timeline` will change the `start` and `end` of the other time
 
 ## Usage
 
-`TimelineManager::Timeline.new([events, start_method, end_method, time_diff])`
+### TimelineManager::Timeline.new([events, start_method, end_method, time_diff])
 
 * events
 	
@@ -142,19 +142,19 @@ When `insert`ing, `Timeline` will change the `start` and `end` of the other time
 
 	Defaults to `Proc.new { 1.day }`
 
-`TimelineManager::Timeline.data`
+### TimelineManager::Timeline.data
 
 Returns the data in its original form, potentially modified if other methods were used.
 
-`TimelineManager::Timeline.insert`
+### TimelineManager::Timeline.insert
 
 todo
 
-`TimelineManager::Timeline.overlap`
+### TimelineManager::Timeline.overlap
 
 todo
 
-`TimelineManager::Timeline.overlay`
+### TimelineManager::Timeline.overlay
 
 todo
 
