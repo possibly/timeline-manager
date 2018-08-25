@@ -92,7 +92,7 @@ puts timeline.data
 	}
 ]
 
-timeline = timeline.insert {start: DateTime.now + 2, end: DateTime.now + 4
+timeline = timeline.insert {start: DateTime.now + 2, end: DateTime.now + 4}
 
 puts timeline.data
 
@@ -116,13 +116,19 @@ When `insert`ing, `Timeline` will change the `start` and `end` of the other time
 
 ## Usage
 
-### TimelineManager::Timeline.new([events, start_method, end_method, time_diff])
+### TimelineManager::Timeline.new([events, time_diff, start_method, end_method])
 
 * events
 	
 	The objects to be sorted, ordered, manipulated, etc. The objects should have a some way of accessing a start time and an end time, see `start_method` and `end_method`.
 
 	Defaults to `[]`.
+
+* time_diff 
+
+	A Proc that returns the amount of time to move other time objects around. The Proc will be interpreted in a context that has ActiveSupport available.
+
+	Defaults to `Proc.new { 1.day }`
 
 * start_method
 
@@ -135,12 +141,6 @@ When `insert`ing, `Timeline` will change the `start` and `end` of the other time
 	The attribute accessor for the end time of your data. 
 
 	Defaults to `:end`.
-
-* time_diff 
-
-	A Proc that returns the amount of time to move other time objects around. The Proc will be interpreted in a context that has ActiveSupport available.
-
-	Defaults to `Proc.new { 1.day }`
 
 ### TimelineManager::Timeline.data
 

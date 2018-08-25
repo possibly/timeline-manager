@@ -13,6 +13,10 @@ class TimeObj
 		else
 			@data = [data]
 		end
+		if @data.class == Range || @data.class == Array
+			start_method = :first
+			end_method = :last
+		end
 		@start_method = start_method
 		@end_method = end_method
 	end
@@ -22,19 +26,11 @@ class TimeObj
 	end
 
 	def start
-		if @data.class == Range
-			@data.first
-		else
-			@data[@start_method]
-		end
+		@data[@start_method]
 	end
 
 	def end
-		if @data.class == Range
-			@data.last
-		else
-			@data[@start_method]
-		end
+		@data[@start_method]
 	end
 
 	def merge(params)
@@ -43,10 +39,10 @@ class TimeObj
 		elsif @data.respond_to? :merge
 			return @data.merge(params)
 		end
-		raise ArgumentError.new('Objects that are represented as times must respond to :attributes, :merge or be of class Range.')
+		raise ArgumentError.new('Objects that are represented as times must respond to :attributes or :merge.')
 	end
 
-	def length
+	def duration
 		start - self.end
 	end
 

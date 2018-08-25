@@ -4,7 +4,7 @@ require 'TimeObj'
 module TimelineManager
 	class Timeline
 
-		def initialize(times=[], start_method=:start, end_method=:end, time_diff=Proc.new { 1.day })
+		def initialize(times=[], time_diff=Proc.new { 1.day }, start_method=:start, end_method=:end)
 			@times = times.map { |t| t.class == TimeObj ? t : TimeObj.new(t, start_method, end_method) }
 			@time_diff = time_diff
 			@start_method = start_method
@@ -42,12 +42,12 @@ module TimelineManager
 			# Beginning and end overlap, but middle is replaced. 
 			time = TimeObj.new(time, start_method, end_method)
 			new_times = []
-			@times.dup.each do |t|
+			@times.each do |t|
 		    if t.start > time.start && t.end < time.end
 		      # The new time covers the old one completely; remove it.
 		    elsif t.start <= time.start && t.end >= time.end
 		      # The new time splits the old one in half.
-		      if t.length > @time_diff
+		      if t.duration > @time_diff
 		        # The new time is more than one time_diff long
 		        new_times << t.merge({"#{t.start_method}": time.end})
 		        new_times << t.merge({"#{t.end_method}": time.start})
