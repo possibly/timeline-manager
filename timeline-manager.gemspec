@@ -6,8 +6,7 @@ Gem::Specification.new do |s|
   s.description = ""
   s.authors     = ["Tyler Brothers"]
   s.email       = 'tylerbrothers1@gmail.com'
-  s.files       = ["lib/timeline-manager.rb", "lib/TimeObj.rb"]
-  s.homepage    =
-    'http://rubygems.org/gems/timeline-manager'
+  s.files       = ["lib/timeline-manager.rb", "lib/TimeObj.rb", 'lib/EventedArray.rb']
+  s.homepage    = 'https://github.com/possibly/timeline-manager'
   s.license       = 'MIT'
 end

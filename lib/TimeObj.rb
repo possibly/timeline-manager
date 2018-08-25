@@ -1,6 +1,9 @@
 require 'active_support/core_ext/object'
 
 class TimeObj
+	# An interface to deal with passed-in time objects which
+	# may have a variety of interfaces. 
+
 	include Comparable
 
 	attr_reader :data
@@ -45,5 +48,4 @@ class TimeObj
 	def duration
 		start - self.end
 	end
-
 end

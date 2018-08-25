@@ -4,7 +4,7 @@ A Ruby gem that helps order and transform grouped temporal data.
 
 ## Synopsis
 
-Consider these timelines.
+Consider these time lines.
 
 ```
 <---- time ---->
@@ -116,11 +116,13 @@ When `insert`ing, `Timeline` will change the `start` and `end` of the other time
 
 ## Usage
 
-### TimelineManager::Timeline.new([events, time_diff, start_method, end_method])
+### TimelineManager::Timeline.new([events, time_diff, start_method, end_method, post_delete, post_create, post_update])
+
+Note that every parameter but `events` is a named parameter, and must be specified when passing in arguments. Ordered arguments beyond `events` are ignored.
 
 * events
 	
-	The objects to be sorted, ordered, manipulated, etc. The objects should have a some way of accessing a start time and an end time, see `start_method` and `end_method`.
+	The objects to be sorted, ordered, manipulated, etc. The objects should have a some way of accessing a start time and an end time, see `start_method` and `end_method`. Structure of objects is expected to be hash-like.
 
 	Defaults to `[]`.
 
@@ -142,21 +144,39 @@ When `insert`ing, `Timeline` will change the `start` and `end` of the other time
 
 	Defaults to `:end`.
 
+* post_delete
+
+	A method, proc or lambda to call after a passed in event is removed from the Timeline. Good for side effects, like logging or updating a database.
+
+* post_create
+
+	A method, proc or lambda to call after the new, passed in event is added to the Timeline. Good for side effects, like logging or updating a database.
+
+* post_update
+
+	A method, proc or lambda to call after a passed in event's `start` or `end` times have been updated. Good for side effects, like logging or updating a database.
+
 ### TimelineManager::Timeline.data
 
 Returns the unmodified data.
 
-### TimelineManager::Timeline.insert
+### TimelineManager::Timeline.insert(event[, time_diff, start_method, end_method, post_delete, post_create, post_update])
 
 Returns a new `Timeline` object.
 
-### TimelineManager::Timeline.overlap
+Parameters are the same as `Timeline`, but can be set specifically for this event.
+
+### TimelineManager::Timeline.overlap(event[, time_diff, start_method, end_method, post_delete, post_create, post_update])
 
 Returns a new `Timeline` object.
 
-### TimelineManager::Timeline.overlay
+Parameters are the same as `Timeline`, but can be set specifically for this event.
+
+### TimelineManager::Timeline.overlay(event[, time_diff, start_method, end_method, post_create])
 
 Returns a new `Timeline` object.
+
+Parameters are the same as `Timeline`, but can be set specifically for this event.
 
 ## Installation
 
