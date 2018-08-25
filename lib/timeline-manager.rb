@@ -19,7 +19,7 @@ module TimelineManager
 			# Produce a new Timeline where time's start through end is unique in @times.
 			time = TimeObj.new(time, start_method, end_method)
 			new_times = []
-			@times.dup.each do |t|
+			@times.each do |t|
 	      if t.start >= time.start && t.end <= time.end
 	        # The new time covers the old one completely; remove it.
 	      elsif t.start < time.start && t.end > time.end
