@@ -144,19 +144,19 @@ When `insert`ing, `Timeline` will change the `start` and `end` of the other time
 
 ### TimelineManager::Timeline.data
 
-Returns the data in its original form, potentially modified if other methods were used.
+Returns the unmodified data.
 
 ### TimelineManager::Timeline.insert
 
-todo
+Returns a new `Timeline` object.
 
 ### TimelineManager::Timeline.overlap
 
-todo
+Returns a new `Timeline` object.
 
 ### TimelineManager::Timeline.overlay
 
-todo
+Returns a new `Timeline` object.
 
 ## Installation
 
