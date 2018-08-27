@@ -29,7 +29,7 @@ module TimelineManager
 			@times.map { |t| t.data }
 		end
 
-		def insert(time={}, time_diff: Proc.new { 1.day }, start_method: :start,
+		def insert(time, time_diff: Proc.new { 1.day }, start_method: :start,
                   end_method: :end, post_delete: nil, post_create: nil,
                   post_update: nil)
 			# Produce a new Timeline where time's start through end is unique in @times.
@@ -57,7 +57,7 @@ module TimelineManager
         post_update: @post_update)
 		end
 
-		def overlap(time={}, time_diff: Proc.new { 1.day }, start_method: :start,
+		def overlap(time, time_diff: Proc.new { 1.day }, start_method: :start,
                   end_method: :end, post_delete: nil, post_create: nil,
                   post_update: nil)
 			# Beginning and end overlap, but middle is replaced. 
