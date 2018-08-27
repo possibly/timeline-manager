@@ -57,9 +57,9 @@ module TimelineManager
         post_update: @post_update)
 		end
 
-		def overlap(time, time_diff=Proc.new { 1.day }, start_method=:start,
-                  end_method=:end, post_delete=nil, post_create=nil,
-                  post_update=nil)
+		def overlap(time={}, time_diff: Proc.new { 1.day }, start_method: :start,
+                  end_method: :end, post_delete: nil, post_create: nil,
+                  post_update: nil)
 			# Beginning and end overlap, but middle is replaced. 
 			time = TimeObj.new(time, start_method, end_method)
       new_times = EventedArray.new((post_delete || @post_delete), (post_create || @post_create), (post_update || @post_update))
@@ -91,7 +91,7 @@ module TimelineManager
         post_update: @post_update)
 		end
 
-		def overlay(time, start_method=:start, end_method=:end, post_create=nil)
+		def overlay(time, start_method: :start, end_method: :end, post_delete: nil)
 			# Simply add the new time to the time line; allows complete overlap.
 			new_times = EventedArray.new((post_delete || @post_delete), (post_create || @post_create), (post_update || @post_update))
       new_times << @times
