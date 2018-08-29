@@ -36,6 +36,13 @@ Time B:               |--->
 Time C:     |---------|
 ```
 
+Splitting Time C Into Time A and B:
+```
+Time A: |---|
+Time B:               |--->
+Time C:     
+```
+
 ## Examples
 
 `TimelineManager::Timeline` is the class that helps order and transform temporal data.
@@ -173,6 +180,12 @@ Returns a new `Timeline` object.
 Parameters are the same as `Timeline`, but can be set specifically for this event.
 
 ### TimelineManager::Timeline.overlay(event[, time_diff, start_method, end_method, post_create])
+
+Returns a new `Timeline` object.
+
+Parameters are the same as `Timeline`, but can be set specifically for this event.
+
+### TimelineManager::Timeline.split(event[, time_diff, post_update])
 
 Returns a new `Timeline` object.
 

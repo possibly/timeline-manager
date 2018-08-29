@@ -41,14 +41,14 @@ module TimelineManager
 	        new_times.delete t
 	      elsif t.start < time.start && t.end > time.end
 	        # The new time splits the old one in half.
-	        new_times.update t.merge({"#{t.end_method}": time.start - @time_diff.call})
-	        new_times.update t.merge({"#{t.start_method}": time.end + @time_diff.call})
+	        new_times.update t.merge({"#{t.end_method}": time.start - time_diff.call})
+	        new_times.update t.merge({"#{t.start_method}": time.end + time_diff.call})
 	      elsif t.start < time.start
 	        # The new time cuts off the old time's end.
-	        new_times.update t.merge({"#{t.end_method}": time.start - @time_diff.call })
+	        new_times.update t.merge({"#{t.end_method}": time.start - time_diff.call })
 	      else
 	        # The new time cuts off the old time's beginning.
-	        new_times.update t.merge({"#{t.start_method}": time.end + @time_diff.call })
+	        new_times.update t.merge({"#{t.start_method}": time.end + time_diff.call })
 	      end
 	    end
 	    new_times.create time
@@ -69,7 +69,7 @@ module TimelineManager
 		      new_times.delete t
 		    elsif t.start <= time.start && t.end >= time.end
 		      # The new time splits the old one in half.
-		      if t.duration > @time_diff
+		      if time.duration > time_diff.call
 		        # The new time is more than one time_diff long
 		        new_times.update t.merge({"#{t.start_method}": time.end})
 		        new_times.update t.merge({"#{t.end_method}": time.start})
@@ -77,7 +77,7 @@ module TimelineManager
 		    elsif t.start < time.start
 		      # The new time cuts off the old time's end.
 		      new_times.update t.merge({"#{t.end_method}": time.start})
-		    elsif t.start == time_start && time.end >= t.end
+		    elsif t.start == time.start && time.end >= t.end
 		      # The new time starts on the old time's start, but the new time continues past the time's end
 		      new_times.update t.merge({"#{t.end_method}": t.start})
 		    else
@@ -96,6 +96,34 @@ module TimelineManager
 			new_times = EventedArray.new((post_delete || @post_delete), (post_create || @post_create), (post_update || @post_update))
       new_times << @times
       new_times.create time
+	    Timeline.new(new_times, time_diff: time_diff, start_method: @start_method, 
+        end_method: @end_method, post_delete: @post_delete, post_create: @post_create, 
+        post_update: @post_update)
+		end
+
+		def split(date, time_diff: Proc.new { 1.day }, post_update: nil)
+			# Splits timelines in half given a point in time.
+			time = TimeObj.new({start: date, end: date + time_diff.call})
+      new_times = EventedArray.new(@post_delete, @post_create, (post_update || @post_update))
+			@times.each do |t|
+		    if t.start > time.start && t.end < time.end
+		      # The new time covers the old one completely.
+		      new_times << t
+		    elsif t.start <= time.start && t.end >= time.end
+		      # The new time splits the old one in half.
+	        new_times.update t.merge({"#{t.start_method}": time.end})
+	        new_times.update t.merge({"#{t.end_method}": time.start})
+		    elsif t.start < time.start
+		      # The new time cuts off the old time's end.
+		      new_times.update t.merge({"#{t.end_method}": time.start})
+		    elsif t.start == time.start && time.end >= t.end
+		      # The new time starts on the old time's start, but the new time continues past the time's end
+		      new_times.update t.merge({"#{t.end_method}": t.start})
+		    else
+		      # The new time cuts off the old time's beginning.
+		      new_times.update t.merge({"#{t.start_method}": time.end})
+		    end
+		  end
 	    Timeline.new(new_times, time_diff: @time_diff, start_method: @start_method, 
         end_method: @end_method, post_delete: @post_delete, post_create: @post_create, 
         post_update: @post_update)

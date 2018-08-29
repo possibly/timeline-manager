@@ -33,7 +33,7 @@ class TimeObj
 	end
 
 	def end
-		@data[@start_method]
+		@data[@end_method]
 	end
 
 	def merge(params)
@@ -46,6 +46,6 @@ class TimeObj
 	end
 
 	def duration
-		start - self.end
+		self.end - start
 	end
 end
